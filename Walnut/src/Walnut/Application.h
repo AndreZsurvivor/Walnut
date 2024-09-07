@@ -19,7 +19,7 @@ namespace Walnut {
 	struct ApplicationSpecification
 	{
 		std::string Name = "Walnut App";
-		uint32_t Width = 1600;
+		uint32_t Width = 1130;
 		uint32_t Height = 900;
 	};
 
@@ -45,6 +45,8 @@ namespace Walnut {
 
 		void Close();
 
+		void SetDefaultLayout(ImGuiID& dockspace_id, ImGuiDockNodeFlags& dockspace_flags);
+
 		float GetTime();
 		GLFWwindow* GetWindowHandle() const { return m_WindowHandle; }
 
@@ -59,6 +61,8 @@ namespace Walnut {
 	private:
 		void Init();
 		void Shutdown();
+
+		void SetupImGuiStyle();
 	private:
 		ApplicationSpecification m_Specification;
 		GLFWwindow* m_WindowHandle = nullptr;
