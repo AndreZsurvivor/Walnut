@@ -417,7 +417,11 @@ namespace Walnut {
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		m_WindowHandle = glfwCreateWindow(m_Specification.Width, m_Specification.Height, m_Specification.Name.c_str(), NULL, NULL);
-
+		float xscale, yscale;
+		glfwGetWindowContentScale(m_WindowHandle, &xscale, &yscale);
+		m_Specification.ScaleDPI = xscale;
+		if(xscale != 1)
+			glfwSetWindowSize(m_WindowHandle, m_Specification.Width * xscale, m_Specification.Height * xscale);
 		// Setup Vulkan
 		if (!glfwVulkanSupported())
 		{
@@ -459,6 +463,7 @@ namespace Walnut {
 
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
+		
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			style.WindowRounding = 0.0f;
@@ -486,9 +491,10 @@ namespace Walnut {
 		// Load default font
 		ImFontConfig fontConfig;
 		fontConfig.FontDataOwnedByAtlas = false;
-		ImFont* robotoFont = io.Fonts->AddFontFromMemoryTTF((void*)g_RobotoRegular, sizeof(g_RobotoRegular), 20.0f, &fontConfig);
+		ImFont* robotoFont = io.Fonts->AddFontFromMemoryTTF((void*)g_RobotoRegular, sizeof(g_RobotoRegular), 20.0f*xscale, &fontConfig);
 		io.FontDefault = robotoFont;
-
+		//io.FontGlobalScale = xscale;
+		style.ScaleAllSizes(xscale);
 		// Upload Fonts
 		{
 			// Use any command queue

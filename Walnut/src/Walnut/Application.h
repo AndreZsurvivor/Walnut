@@ -19,6 +19,7 @@ namespace Walnut {
 	struct ApplicationSpecification
 	{
 		std::string Name = "Walnut App";
+		float ScaleDPI = 1;
 		uint32_t Width = 1130;
 		uint32_t Height = 900;
 	};
@@ -46,6 +47,8 @@ namespace Walnut {
 		void Close();
 
 		void SetDefaultLayout(ImGuiID& dockspace_id, ImGuiDockNodeFlags& dockspace_flags);
+
+		float GetScaleDPI() { return m_Specification.ScaleDPI; }
 
 		float GetTime();
 		GLFWwindow* GetWindowHandle() const { return m_WindowHandle; }
